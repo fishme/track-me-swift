@@ -4,6 +4,8 @@ Simple Stop Watch Swift app with [Sqlite DB](https://github.com/stephencelis/SQL
 
 ## Getting Started
 
+iOS Store link [Stop me now](https://itunes.apple.com/de/app/stop-me-now/id1325713157?l=en&mt=8)
+
 
 ### Prerequisites
 
