@@ -2,7 +2,11 @@
 
 Simple Stop Watch Swift app with [Sqlite DB](https://github.com/stephencelis/SQLite.swift)
 
+![](https://github.com/fishme/track-me-swift/blob/master/TrackMe/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76%403x.png)
+
 ## Getting Started
+
+iOS Store link [Stop me now](https://itunes.apple.com/de/app/stop-me-now/id1325713157?l=en&mt=8)
 
 
 ### Prerequisites
