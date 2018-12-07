@@ -3,7 +3,7 @@
 //  TrackMe
 //
 //  Created by David Hohl on 13.12.17.
-//  Copyright © 2017 David Hohl. All rights reserved.
+//  Copyright © 2018 David Hohl. All rights reserved.
 //
 
 import SQLite
@@ -25,6 +25,7 @@ class DatabaseService {
      connect to database
      */
     func connect() {
+        
         do {
             let documentDirectory = try FileManager.default.url(
                 for: .documentDirectory,
@@ -36,6 +37,7 @@ class DatabaseService {
             let fileUrl = documentDirectory
                 .appendingPathComponent("tracking")
                 .appendingPathExtension("sqlite3")
+            
             
             self.db = try! Connection(fileUrl.path)
             
@@ -63,6 +65,8 @@ class DatabaseService {
      create all needed tables
      */
     private func createTables() {
+        
+        
         let createTable = self.trackingTable.create(ifNotExists:true) {(table) in
             table.column(self.id, primaryKey: true)
             table.column(self.name)

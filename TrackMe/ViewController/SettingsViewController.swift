@@ -3,7 +3,7 @@
 //  TrackMe
 //
 //  Created by David Hohl on 13.12.17.
-//  Copyright © 2017 David Hohl. All rights reserved.
+//  Copyright © 2018 David Hohl. All rights reserved.
 //
 
 import UIKit

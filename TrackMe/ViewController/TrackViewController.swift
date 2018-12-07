@@ -3,7 +3,7 @@
 //  TrackMe
 //
 //  Created by David Hohl on 12.12.17.
-//  Copyright © 2017 David Hohl. All rights reserved.
+//  Copyright © 2018 David Hohl. All rights reserved.
 //
 
 import UIKit
@@ -17,6 +17,9 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var Label: UILabel!
     @IBOutlet weak var lapTableView: UITableView!
     
+    @IBOutlet weak var tableEntries: UILabel!
+    @IBOutlet weak var myButton: UIButton!
+    
     // total seconds
     var totalTime:Float = 0
     
@@ -25,6 +28,7 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // displayed time
     var formatedTime: String = ""
+    
     
     var defaultFormatedTime: String = "00:00:00"
     
@@ -41,6 +45,8 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         initDB()
         initPulsView()
         
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,6 +56,7 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewWillAppear(_ animated: Bool) {
         getTrackingResults()
         isTimerRunning = -1
+        setLapEntries()
     }
     
     // init database
@@ -59,7 +66,7 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func initPulsView() {
-        startButton.layer.cornerRadius = startButton.frame.width / 2
+        startButton.layer.cornerRadius = startButton.bounds.size.height / 2
     }
     
     /***** ACTIONS ******/
@@ -72,7 +79,7 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
             isTimerRunning = 1;
             startButton.setTitle("START", for: .normal)
         } else if isTimerRunning == 1 || isTimerRunning == -1 {
-            startButton.setTitle("PAUSE", for: .normal)
+            startButton.setTitle("||", for: .normal)
             isTimerRunning = 0;
             timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
             
@@ -87,14 +94,16 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         totalTime = 0
         formatedTime = defaultFormatedTime
         Label.text = String(formatedTime)
+        isTimerRunning = 1;
+        startButton.setTitle("START", for: .normal)
         
     }
+    
     
     // update watch
     @objc func updateTimer() {
         totalTime += 1
         Label.text = formatTime(time: TimeInterval(totalTime))
-        
     }
  
     
@@ -109,6 +118,7 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     // store lap to database
     @IBAction func lapBtn(_ sender: Any) {
+        
         let insertTracking = self.database.trackingTable.insert(
             self.database.name <- String(formatedTime),
             self.database.published <- Date()
@@ -150,8 +160,11 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "lapCell")
         cell?.textLabel?.text = lapTimes[indexPath.row]
+        setLapEntries()
         return cell!
     }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return lapTimes.count
@@ -159,7 +172,7 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     /*** Animations ***/
     
-    func animatePulseView(){
+    func animatePulseView() {
         var radius: CGFloat = 190
         var duration: TimeInterval = 0.8
         
@@ -176,6 +189,10 @@ class TrackViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.view.layer.insertSublayer(pulse, below: startButton.layer)
         
         
+    }
+    
+    func setLapEntries() {
+        tableEntries.text = String(lapTableView.numberOfRows(inSection: 0)) + "  entries"
     }
 }
 
